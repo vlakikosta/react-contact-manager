@@ -29,3 +29,11 @@ i.icon {
   text-align: center;
 }
 
+.ui.items:not(.unstackable) > .item {
+  flex-direction: unset !important;
+}
+
+.ui.items:not(.unstackable) > .item > .image + .content {
+  padding-top: 0px;
+  padding-left: 1.5em;
+}
