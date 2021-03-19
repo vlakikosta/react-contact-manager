@@ -27,21 +27,25 @@ const ContactList = (props) => {
           <button className="ui button blue right">Add Contact</button>
         </Link>
       </h2>
-      {props.contacts && props.contacts.length > 0 ? (<div className="ui celled list items">{renderContactList}</div>) : (
-        <div className="ui placeholder">
-          <div className="image header">
-            <div className="line"></div>
-            <div className="line"></div>
+      {props.contacts && props.contacts.length > 0 ? (<div className="ui celled list items">{renderContactList}</div>) : "No data"}
+      {props.loading ? (
+        <div>
+          <div className="ui placeholder">
+            <div className="image header">
+              <div className="line"></div>
+              <div className="line"></div>
+            </div>
+            <div className="paragraph">
+              <div className="line"></div>
+              <div className="line"></div>
+              <div className="line"></div>
+              <div className="line"></div>
+              <div className="line"></div>
+            </div>
           </div>
-          <div className="paragraph">
-            <div className="line"></div>
-            <div className="line"></div>
-            <div className="line"></div>
-            <div className="line"></div>
-            <div className="line"></div>
-          </div>
+          <div class="ui active centered inline loader"></div>
         </div>
-      )}
+        ) : ""}
     </div>
   );
 };

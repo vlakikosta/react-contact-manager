@@ -12,9 +12,11 @@ import EditContact from "./EditContact";
 function App() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //RetrieveContacts
   const retrieveContacts = async () => {
+    setLoading(true);
     const response = await api.get("/contacts.json").catch(error => {alert(error)});
     //console.log(response.data,'response456');
     let data = response.data;
@@ -28,6 +30,7 @@ function App() {
       }
       contacts.push(newContct);
     });
+    setLoading(false);
     return contacts;
     //return response.data;
   };
@@ -75,6 +78,7 @@ function App() {
     // if (retriveContacts) setContacts(retriveContacts);
     const getAllCOntacts = async () => {
       const allContacts = await retrieveContacts();
+
       if (allContacts) setContacts(allContacts);
     };
 
@@ -97,6 +101,7 @@ function App() {
               <ContactList
                 {...props}
                 contacts={contacts}
+                loading={loading}
                 getContactId={removeContactHandler}
               />
             )}
