@@ -16,6 +16,8 @@ class AddContact extends React.Component {
       this.setState({ pointingClassName: this.state.name,pointingClassEmail: this.state.email });
       return;
     }
+    delete this.state.pointingClassName;
+    delete this.state.pointingClassEmail;
     this.props.addContactHandler(this.state);
     this.setState({ name: "", email: "" });
     this.props.history.push("/");

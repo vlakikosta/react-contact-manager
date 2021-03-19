@@ -19,6 +19,8 @@ class EditContact extends React.Component {
       this.setState({ pointingClassName: this.state.name,pointingClassEmail: this.state.email });
       return;
     }
+    delete this.state.pointingClassName;
+    delete this.state.pointingClassEmail;
     this.props.updateContactHandler(this.state);
     this.setState({ name: "", email: "" });
     this.props.history.push("/");
