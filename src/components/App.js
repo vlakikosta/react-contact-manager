@@ -9,6 +9,17 @@ import ContactList from "./ContactList";
 import ContactDetail from "./ContactDetail";
 import EditContact from "./EditContact";
 
+function countGender(contacts){
+    let gender = [];
+    gender.male = 0;
+    gender.female = 0;
+
+    contacts.map((contact) => {
+      (contact.gender == 'male') ? gender.male++ : gender.female++;
+    });
+    return gender;
+}
+
 function App() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
@@ -23,8 +34,6 @@ function App() {
     let data = response.data;
     let contacts = [];
     let gender = [];
-    gender.male = 0;
-    gender.female = 0;
 
     Object.keys(data).map((contact) =>{
       //console.log(data[contact],'contact123');
@@ -35,8 +44,9 @@ function App() {
         gender: data[contact].gender ? data[contact].gender : 'male',
       }
       contacts.push(newContct);
-      (newContct.gender == 'male') ? gender.male++ : gender.female++;
+      //(newContct.gender == 'male') ? gender.male++ : gender.female++;
     });
+    gender = countGender(contacts);
     setGender(gender);
     setLoading(false);
     return contacts;
@@ -69,11 +79,12 @@ function App() {
         return contact.id === id ? { ...response.data } : contact;
       });
     let gender = [];
-    gender.male = 0;
-    gender.female = 0;
-    resultContact.map((contact) => {
-      (contact.gender == 'male') ? gender.male++ : gender.female++;
-    });
+    // gender.male = 0;
+    // gender.female = 0;
+    // resultContact.map((contact) => {
+    //   (contact.gender == 'male') ? gender.male++ : gender.female++;
+    // });
+    gender = countGender(resultContact);
     setContacts(resultContact);
     setGender(gender);
   };
@@ -84,11 +95,12 @@ function App() {
       return contact.id !== id;
     });
     let gender = [];
-    gender.male = 0;
-    gender.female = 0;
-    newContactList.map((contact) => {
-      (contact.gender == 'male') ? gender.male++ : gender.female++;
-    });
+    // gender.male = 0;
+    // gender.female = 0;
+    // newContactList.map((contact) => {
+    //   (contact.gender == 'male') ? gender.male++ : gender.female++;
+    // });
+    gender = countGender(newContactList);
     setContacts(newContactList);
     setGender(gender);
   };
