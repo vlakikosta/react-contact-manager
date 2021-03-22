@@ -3,11 +3,12 @@ import React from "react";
 class EditContact extends React.Component {
   constructor(props) {
     super(props);
-    const { id, name, email } = props.location.state.contact;
+    const { id, name, email, gender } = props.location.state.contact;
     this.state = {
       id,
       name,
       email,
+      gender,
       pointingClassName: "hidden",
       pointingClassEmail: "hidden",
     };
@@ -51,6 +52,23 @@ class EditContact extends React.Component {
               onChange={(e) => this.setState({ email: e.target.value,pointingClassEmail: e.target.value })}
             />
             <div className={this.state.pointingClassEmail === "" ? "ui pointing red basic label" : "hidden"}>Please enter a value</div>
+          </div>
+          <div className="field">
+            <label>Gender</label>
+            <input
+              type="radio"
+              name="gender"
+              value={'male'}
+              checked={this.state.gender == "male"}
+              onChange={(e) => this.setState({ gender: e.target.value})}
+            /><span style={{padding:'5px'}}>Male</span>
+            <input
+              type="radio"
+              name="gender"
+              value={'female'}
+              checked={this.state.gender == "female"}
+              onChange={(e) => this.setState({ gender: e.target.value})}
+            /><span style={{padding:'5px'}}>Female</span>
           </div>
           <button className="ui button blue">Update</button>
         </form>

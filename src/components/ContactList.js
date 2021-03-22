@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ContactCard from "./ContactCard";
+import PieChart from "./PieChart";
 
 const ContactList = (props) => {
-  console.log(props.contacts.length, 'props123');
+  //console.log(props, 'props123');
 
   const deleteConactHandler = (id) => {
     props.getContactId(id);
@@ -27,6 +28,25 @@ const ContactList = (props) => {
           <button className="ui button blue right">Add Contact</button>
         </Link>
       </h2>
+
+      <PieChart
+        width={400}
+        height={200}
+        fillType="range"
+        fill={["#e600e5", "#800080"]}
+        data={[
+          props.gender.male,
+          props.gender.female,
+        ]}
+        labels={[
+          'Male' ,
+          'Female' ,
+        ]}
+        handleOnClick={null}
+        onClickFilter={null}
+      />
+
+
       {props.contacts && props.contacts.length > 0 ? (<div className="ui celled list items">{renderContactList}</div>) : "No data"}
       {props.loading ? (
         <div>

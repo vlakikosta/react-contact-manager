@@ -5,6 +5,7 @@ class AddContact extends React.Component {
   state = {
     name: "",
     email: "",
+    gender: "",
     pointingClassName: "hidden",
     pointingClassEmail: "hidden",
   };
@@ -50,6 +51,22 @@ class AddContact extends React.Component {
               onChange={(e) => this.setState({ email: e.target.value,pointingClassEmail: e.target.value })}
             />
             <div className={this.state.pointingClassEmail === "" ? "ui pointing red basic label" : "hidden"}>Please enter a value</div>
+          </div>
+          <div className="field">
+            <label>Gender</label>
+            <input
+              type="radio"
+              name="gender"
+              value={'male'}
+              checked
+              onChange={(e) => this.setState({ gender: e.target.value})}
+            /><span style={{padding:'5px'}}>Male</span>
+            <input
+              type="radio"
+              name="gender"
+              value={'female'}
+              onChange={(e) => this.setState({ gender: e.target.value})}
+            /><span style={{padding:'5px'}}>Female</span>
           </div>
           <button className="ui button blue">Add</button>
         </form>

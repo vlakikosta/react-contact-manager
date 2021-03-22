@@ -13,6 +13,7 @@ function App() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [gender, setGender] = useState([]);
 
   //RetrieveContacts
   const retrieveContacts = async () => {
@@ -21,22 +22,31 @@ function App() {
     //console.log(response.data,'response456');
     let data = response.data;
     let contacts = [];
+    let gender = [];
+    gender.male = 0;
+    gender.female = 0;
+
     Object.keys(data).map((contact) =>{
       //console.log(data[contact],'contact123');
       const newContct = {
         id: contact,
         email: data[contact].email,
-        name: data[contact].name, 
+        name: data[contact].name,
+        gender: data[contact].gender ? data[contact].gender : 'male',
       }
       contacts.push(newContct);
+      (newContct.gender == 'male') ? gender.male++ : gender.female++;
     });
+    setGender(gender);
     setLoading(false);
     return contacts;
     //return response.data;
   };
 
+
+
   const addContactHandler = async (contact) => {
-    console.log(contact);
+    //console.log(contact);
     const request = {
       ...contact,
     };
@@ -44,24 +54,28 @@ function App() {
     const response = await api.post("/contacts.json", request);
     //console.log(request,'addcontact');
     //const allContacts = await retrieveContacts();
-    const requestContact = {
-      id: response.data.name,
-      ...contact,
-    }
-    console.log(requestContact, 'requestContact45');
-    setContacts([...contacts, requestContact]);
+
+    (request.gender == 'male') ? gender.male++ : gender.female++;
+    //console.log(request, 'requestContact45');
+    setContacts([...contacts, request]);
+    setGender(gender);
   };
 
   const updateContactHandler = async (contact) => {
     const response = await api.put(`/contacts/${contact.id}.json`, contact);
     //console.log(response,'response123');
-    const { id, email, name } = response.data;
-    setContacts(
-      contacts.map((contact) => {
-        
+    const { id, email, name, respGender } = response.data;
+    let resultContact = contacts.map((contact) => {
         return contact.id === id ? { ...response.data } : contact;
-      })
-    );
+      });
+    let gender = [];
+    gender.male = 0;
+    gender.female = 0;
+    resultContact.map((contact) => {
+      (contact.gender == 'male') ? gender.male++ : gender.female++;
+    });
+    setContacts(resultContact);
+    setGender(gender);
   };
 
   const removeContactHandler = async (id) => {
@@ -69,8 +83,14 @@ function App() {
     const newContactList = contacts.filter((contact) => {
       return contact.id !== id;
     });
-
+    let gender = [];
+    gender.male = 0;
+    gender.female = 0;
+    newContactList.map((contact) => {
+      (contact.gender == 'male') ? gender.male++ : gender.female++;
+    });
     setContacts(newContactList);
+    setGender(gender);
   };
 
   useEffect(() => {
@@ -101,6 +121,7 @@ function App() {
               <ContactList
                 {...props}
                 contacts={contacts}
+                gender={gender}
                 loading={loading}
                 getContactId={removeContactHandler}
               />
